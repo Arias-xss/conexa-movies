@@ -5,6 +5,7 @@ import { validate } from './config/env.validator';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
 import { UsersModule } from './modules/users/users.module';
+import { AuthModule } from './modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { UsersModule } from './modules/users/users.module';
       },
     ]),
     UsersModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

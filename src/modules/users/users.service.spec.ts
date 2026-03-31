@@ -19,6 +19,7 @@ const mockUser: Users = {
 };
 
 const mockRepository = {
+  create: jest.fn(),
   save: jest.fn(),
   findOneBy: jest.fn(),
   find: jest.fn(),
@@ -55,16 +56,19 @@ describe('UsersService', () => {
     };
 
     it('should create and return a user', async () => {
+      jest.spyOn(mockRepository, 'create').mockReturnValue(mockUser);
       jest.spyOn(mockRepository, 'save').mockResolvedValue(mockUser);
 
       const result = await service.create(createUserDto);
 
-      expect(repository.save).toHaveBeenCalledWith(createUserDto);
+      expect(repository.create).toHaveBeenCalledWith(createUserDto);
+      expect(repository.save).toHaveBeenCalledWith(mockUser);
       expect(result).toEqual(mockUser);
     });
 
     it('should propagate repository errors', async () => {
       const error = new Error('DB error');
+      jest.spyOn(mockRepository, 'create').mockReturnValue(mockUser);
       jest.spyOn(mockRepository, 'save').mockRejectedValue(error);
 
       await expect(service.create(createUserDto)).rejects.toThrow('DB error');

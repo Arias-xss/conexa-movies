@@ -1,9 +1,14 @@
-import { BadRequestException } from '@nestjs/common';
+import { BadRequestException, ForbiddenException, INestApplication } from '@nestjs/common';
+import { Reflector } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
+import { AuthGuard } from '@nestjs/passport';
 import { UserRoles, Users } from './entities/users.entity';
 import { UsersController } from './users.controller';
 import { UsersService } from './users.service';
 import { FindFilter } from './dto/filter-criterias.dto';
+import { RolesGuard } from '../auth/guards/roles.guard';
+import { ROLES_KEY } from '../auth/decorators/roles.decorator';
+import * as request from 'supertest';
 
 const mockUser: Users = {
   id: 1,
@@ -89,6 +94,77 @@ describe('UsersController', () => {
       await expect(controller.getAll(filter)).rejects.toThrow(
         new BadRequestException('Limit and page are required'),
       );
+    });
+  });
+
+  describe('Role guard enforcement', () => {
+    it('should have ADMIN role metadata on getAll handler', () => {
+      const roles = Reflect.getMetadata(ROLES_KEY, controller.getAll);
+      expect(roles).toEqual([UserRoles.ADMIN]);
+    });
+
+    it('should have RolesGuard applied at the controller level', () => {
+      const guards: any[] = Reflect.getMetadata('__guards__', UsersController);
+      expect(guards).toContain(RolesGuard);
+    });
+
+    it('should have AuthGuard applied at the controller level', () => {
+      const guards: any[] = Reflect.getMetadata('__guards__', UsersController);
+      const JwtGuard = AuthGuard('jwt');
+      expect(
+        guards.some((g) => g?.name === JwtGuard.name),
+      ).toBe(true);
+    });
+
+    it('should return 403 when RolesGuard blocks a non-admin user', async () => {
+      const module: TestingModule = await Test.createTestingModule({
+        controllers: [UsersController],
+        providers: [{ provide: UsersService, useValue: { findAll: jest.fn() } }, Reflector],
+      })
+        .overrideGuard(AuthGuard('jwt'))
+        .useValue({ canActivate: () => true })
+        .overrideGuard(RolesGuard)
+        .useValue({ canActivate: () => false })
+        .compile();
+
+      const app: INestApplication = module.createNestApplication();
+      await app.init();
+
+      await request(app.getHttpServer()).get('/users').expect(403);
+
+      await app.close();
+    });
+
+    it('should return 200 when RolesGuard passes an admin user', async () => {
+      const usersList: Users[] = [{ ...mockUser, role: UserRoles.ADMIN, hashPassword: jest.fn(), validatePassword: jest.fn() }];
+
+      const module: TestingModule = await Test.createTestingModule({
+        controllers: [UsersController],
+        providers: [
+          { provide: UsersService, useValue: { findAll: jest.fn().mockResolvedValue(usersList) } },
+          Reflector,
+        ],
+      })
+        .overrideGuard(AuthGuard('jwt'))
+        .useValue({ canActivate: () => true })
+        .overrideGuard(RolesGuard)
+        .useValue({ canActivate: () => true })
+        .compile();
+
+      const app: INestApplication = module.createNestApplication();
+      await app.init();
+
+      await request(app.getHttpServer())
+        .get('/users')
+        .query({ page: 1, limit: 10 })
+        .expect(200)
+        .expect((res) => {
+          expect(res.body).toMatchObject([
+            expect.objectContaining({ id: mockUser.id, role: UserRoles.ADMIN }),
+          ]);
+        });
+
+      await app.close();
     });
   });
 });

@@ -14,7 +14,8 @@ export class UsersService {
 
   async create(userDto: CreateUserDto): Promise<Users> {
     try {
-      return await this.usersRepository.save(userDto);
+      const user = this.usersRepository.create(userDto);
+      return await this.usersRepository.save(user);
     } catch (error) {
       this.logger.error(error);
 
