@@ -1,98 +1,158 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# 🎬 Conexa Backend — Movies API
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+> API RESTful para la gestión de películas, construida como prueba técnica con arquitectura moderna, autenticación segura y despliegue automatizado.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+---
 
-## Description
+## 📋 Descripción
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+**Conexa Movies API** es un backend desarrollado con **NestJS** y **TypeScript** que expone endpoints para la administración de películas. Incluye autenticación con JWT, persistencia en MariaDB mediante TypeORM, documentación interactiva con Swagger, y un pipeline de CI/CD configurado con GitHub Actions y Railway.
 
-## Project setup
+---
 
-```bash
-$ pnpm install
-```
+## 🛠️ Tecnologías Utilizadas
 
-## Compile and run the project
+| Tecnología | Descripción |
+|---|---|
+| 🟢 **NestJS** | Framework principal de Node.js |
+| 🔷 **TypeScript** | Lenguaje de programación tipado |
+| 🐬 **MariaDB** | Base de datos relacional |
+| 🗂️ **TypeORM** | ORM para la gestión de entidades |
+| 🔐 **JWT** | Autenticación y autorización |
+| 🐳 **Docker** | Containerización del proyecto |
+| ⚙️ **GitHub Actions** | Integración continua y despliegue |
+| 📄 **Swagger** | Documentación interactiva de la API |
+| 🚂 **Railway** | Plataforma de despliegue CI/CD |
 
-```bash
-# development
-$ pnpm run start
+---
 
-# watch mode
-$ pnpm run start:dev
+## 🌐 Entorno de Pruebas (Producción)
 
-# production mode
-$ pnpm run start:prod
-```
+La API se encuentra desplegada y lista para ser explorada:
 
-## Run tests
+🔗 **Swagger UI (Producción):**
+[https://conexa-movies-production.up.railway.app/docs](https://conexa-movies-production.up.railway.app/docs)
+
+> Podés probar todos los endpoints directamente desde el navegador sin necesidad de configurar nada localmente.
+
+---
+
+## 💻 Cómo Correr el Proyecto Localmente
+
+### 1️⃣ Clonar el Repositorio
 
 ```bash
-# unit tests
-$ pnpm run test
-
-# e2e tests
-$ pnpm run test:e2e
-
-# test coverage
-$ pnpm run test:cov
+git clone https://github.com/Arias-xss/conexa-movies.git
+cd conexa-movies
 ```
 
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
+### 2️⃣ Configurar Variables de Entorno
 
 ```bash
-$ pnpm install -g @nestjs/mau
-$ mau deploy
+cp .env.example .env
 ```
 
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
+> ✏️ Abrí el archivo `.env` y completá los valores necesarios (credenciales de base de datos, secreto JWT, etc.).
 
-## Resources
+### 3️⃣ Instalar Dependencias
 
-Check out a few resources that may come in handy when working with NestJS:
+```bash
+yarn install
+```
 
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
+### 4️⃣ Levantar los Servicios con Docker
 
-## Support
+```bash
+docker compose up
+```
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+> 🐳 Esto iniciará tanto la API como la base de datos MariaDB en contenedores aislados.
 
-## Stay in touch
+### 5️⃣ Ejecutar los Tests
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```bash
+yarn test
+```
 
-## License
+> ✅ Validá que todos los tests pasen correctamente antes de comenzar a explorar la API.
 
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
+### 6️⃣ Acceder a la Aplicación
+
+Una vez que todo esté corriendo, la API estará disponible en:
+
+```
+http://localhost:3000
+```
+
+---
+
+## 📖 Documentación de la API
+
+Podés explorar y probar todos los endpoints disponibles desde la interfaz de Swagger:
+
+🔗 **Local:**
+[http://localhost:3000/docs](http://localhost:3000/docs)
+
+🔗 **Producción:**
+[https://conexa-movies-production.up.railway.app/docs](https://conexa-movies-production.up.railway.app/docs)
+
+> La documentación incluye descripción de cada endpoint, parámetros requeridos, ejemplos de request/response y soporte para autenticación con Bearer Token.
+
+---
+
+## 🧪 Scripts Disponibles
+
+```bash
+# Instalar dependencias
+yarn install
+
+# Levantar en modo desarrollo
+yarn start:dev
+
+# Compilar el proyecto
+yarn build
+
+# Ejecutar tests unitarios
+yarn test
+
+# Ejecutar tests con cobertura
+yarn test:cov
+```
+
+---
+
+## 🚀 CI/CD Pipeline
+
+El proyecto cuenta con un pipeline automatizado configurado con **GitHub Actions** que se ejecuta en cada push a la rama principal:
+
+1. ✅ Instalación de dependencias
+2. 🧪 Ejecución de tests
+3. 🏗️ Build del proyecto
+4. 🚂 Despliegue automático en Railway
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+conexa-movies/
+├── src/
+│   ├── auth/          # Módulo de autenticación (JWT)
+│   ├── movies/        # Módulo de películas (CRUD)
+│   ├── users/         # Módulo de usuarios
+│   └── main.ts        # Entry point
+├── test/              # Tests e2e
+├── docker-compose.yml
+├── .env.example
+└── README.md
+```
+
+---
+
+## 👤 Autor
+
+Desarrollado por **[@Arias-xss](https://github.com/Arias-xss)** como parte de una prueba técnica para **Conexa**.
+
+---
+
+<p align="center">Hecho con ❤️ y ☕</p>
