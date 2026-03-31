@@ -1,4 +1,8 @@
-import { BadRequestException, ForbiddenException, INestApplication } from '@nestjs/common';
+import {
+  BadRequestException,
+  ForbiddenException,
+  INestApplication,
+} from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthGuard } from '@nestjs/passport';
@@ -111,15 +115,16 @@ describe('UsersController', () => {
     it('should have AuthGuard applied at the controller level', () => {
       const guards: any[] = Reflect.getMetadata('__guards__', UsersController);
       const JwtGuard = AuthGuard('jwt');
-      expect(
-        guards.some((g) => g?.name === JwtGuard.name),
-      ).toBe(true);
+      expect(guards.some((g) => g?.name === JwtGuard.name)).toBe(true);
     });
 
     it('should return 403 when RolesGuard blocks a non-admin user', async () => {
       const module: TestingModule = await Test.createTestingModule({
         controllers: [UsersController],
-        providers: [{ provide: UsersService, useValue: { findAll: jest.fn() } }, Reflector],
+        providers: [
+          { provide: UsersService, useValue: { findAll: jest.fn() } },
+          Reflector,
+        ],
       })
         .overrideGuard(AuthGuard('jwt'))
         .useValue({ canActivate: () => true })
@@ -136,12 +141,22 @@ describe('UsersController', () => {
     });
 
     it('should return 200 when RolesGuard passes an admin user', async () => {
-      const usersList: Users[] = [{ ...mockUser, role: UserRoles.ADMIN, hashPassword: jest.fn(), validatePassword: jest.fn() }];
+      const usersList: Users[] = [
+        {
+          ...mockUser,
+          role: UserRoles.ADMIN,
+          hashPassword: jest.fn(),
+          validatePassword: jest.fn(),
+        },
+      ];
 
       const module: TestingModule = await Test.createTestingModule({
         controllers: [UsersController],
         providers: [
-          { provide: UsersService, useValue: { findAll: jest.fn().mockResolvedValue(usersList) } },
+          {
+            provide: UsersService,
+            useValue: { findAll: jest.fn().mockResolvedValue(usersList) },
+          },
           Reflector,
         ],
       })
