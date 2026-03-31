@@ -1,0 +1,41 @@
+services:
+  movies-database:
+    container_name: movies-database
+    image: mariadb:10.4
+    env_file:
+      - .env
+    healthcheck:
+      test: ["CMD", "healthcheck.sh", "--connect", "--innodb_initialized"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+    volumes:
+      - movies-database-data:/var/lib/mysql # persist data even if container shuts down
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
+    command:
+      - --default-time-zone=+00:00
+
+  movies-api:
+    container_name: movies-api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/usr/src/app
+    ports:
+      - "3000:3000"
+    expose:
+      - 3000
+    command: pnpm start:dev
+    env_file:
+      - .env
+    depends_on:
+      - movies-database
+    links:
+      - movies-database:movies-database
+
+volumes:
+  movies-database-data: #  management
