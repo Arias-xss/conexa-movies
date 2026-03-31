@@ -42,14 +42,6 @@ class EnvironmentVariables {
 
   @IsString()
   @IsNotEmpty()
-  JWT_ACCESS_EXPIRATION: string;
-
-  @IsString()
-  @IsNotEmpty()
-  JWT_REFRESH_EXPIRATION: string;
-
-  @IsString()
-  @IsNotEmpty()
   MOVIES_BASE_URL: string;
 }
 
