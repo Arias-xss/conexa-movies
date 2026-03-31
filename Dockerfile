@@ -1,7 +1,5 @@
 FROM library/node:22 as base
 
-RUN npm i -g yarn
-
 FROM base AS dependencies
 
 WORKDIR /usr/src/app
