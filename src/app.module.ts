@@ -4,6 +4,7 @@ import { DatabaseModule } from './database/database.module';
 import { validate } from './config/env.validator';
 import { ScheduleModule } from '@nestjs/schedule';
 import { ThrottlerModule } from '@nestjs/throttler';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { ThrottlerModule } from '@nestjs/throttler';
         limit: 100,
       },
     ]),
+    UsersModule,
   ],
 })
 export class AppModule {}
